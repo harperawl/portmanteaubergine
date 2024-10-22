@@ -33,6 +33,9 @@ document.addEventListener('DOMContentLoaded', function() {
     numWordsBox = document.getElementById('numWords');
     wordsScoreRatioBox = document.getElementById('wordsScoreRatio');
     errorBox = document.getElementById('errorBox');
+    if (findWordsPossible(wordArray, joiners, dissectWord(recentWord), recentWord).length == 0) {
+        resetGame();
+    }
     textBox.addEventListener('keydown', function(event) {
         if (event.key === 'Enter') {
             event.preventDefault();
@@ -81,6 +84,9 @@ function resetGame() {
     currentWord = wordArray[Math.floor(Math.random() * wordArray.length)];
     recentWord = currentWord;
     document.getElementById('currentWord').innerHTML = currentWord;
+    if (findWordsPossible(wordArray, joiners, dissectWord(recentWord), recentWord).length == 0) {
+        resetGame();
+    }
 }
 
 function findWordsPossible(words, usedJoiners, unusedJoiners, recentWord) {
@@ -106,7 +112,14 @@ let possibleWords = [];
 function giveUp() {
     document.getElementById('closingBox').style.display = 'block';
     possibleWords = findWordsPossible(wordArray, joiners, dissectWord(recentWord), recentWord);
-    document.getElementById('possibleWords').innerHTML = possibleWords.slice(0, 15).join(', ') + '<a onclick="loadAll()"> and ' + (possibleWords.length - 15) + ' more.</a>';
+    document.getElementById('possibleWords').innerHTML = possibleWords.slice(0, 15).join(', ');
+    if (possibleWords.length > 15) {
+        document.getElementById('possibleWords').innerHTML += '<a onclick="loadAll()"> and ' + (possibleWords.length - 15) + ' more.</a>';
+    } else if (possibleWords.length > 0) {
+        document.getElementById('possibleWords').innerHTML += '.';
+    } else {
+        document.getElementById('possibleWords').innerHTML = 'none.';
+    }
 }
 
 function loadAll() {
