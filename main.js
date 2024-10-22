@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     textBox.value = '';
                     errorBox.innerHTML = '';
                     if (findWordsPossible(wordArray, joiners, dissectWord(recentWord), recentWord).length == 0) {
-                        console.log("you lose");
+                        giveUp();
                     }
                     break;
                 } else if (joiners.includes(textBoxValue.substring(0, i))) {

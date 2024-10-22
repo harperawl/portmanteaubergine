@@ -1,3 +1,7 @@
+#currentWord {
+    text-wrap: wrap;
+}
+
 #closingBox {
     z-index: 1000;
     opacity: 90%;
