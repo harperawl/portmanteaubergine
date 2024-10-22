@@ -115,4 +115,5 @@ function loadAll() {
 
 function closeClosingBox() {
     document.getElementById('closingBox').style.display = 'none';
+    resetGame();
 }
