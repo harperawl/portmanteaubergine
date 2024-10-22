@@ -1,5 +1,6 @@
 #currentWord {
-    text-wrap: wrap;
+    word-break: break-all;
+    overflow-wrap: break-word;
 }
 
 #closingBox {
