@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>portmanteaubergine</title>
+    <script src="main.js"></script>
+</head>
+<body>
+    <h1><i>portmante<span style="color: red;">au</span>bergine</i></h1>
+    <h2 id="currentWord"></h2>
+    <button onclick="resetGame()">reset</button>
+    <h3>current score: <span id="scoreBox"></span></h3>
+    <h3>number of words: <span id="numWords"></span></h3>
+    <h3>score/words ratio: <span id="wordsScoreRatio"></span></h3>
+    <input type="text" id="textBox">
+    <button>submit</button>
+    <h3><span style="color: red;" id="errorBox"></span></h3>
+    <h3>rules:</h3>
+    <ul>
+        <li>type a word in the box that starts with the same n letters the current word ends with</li>
+        <li>you get a point for every letter that overlaps</li>
+        <li>you cannot reuse the same joining letters twice</li>
+        <li>you cannot connect the words by one letter only</li>
+        <li>your new word cannot contain the previous word</li>
+    </ul>
+</body>
+</html>
