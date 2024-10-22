@@ -1,0 +1,11 @@
+#closingBox {
+    z-index: 1000;
+    opacity: 90%;
+    background-color: #CCC;
+    position: fixed;
+    top: 10%;
+    left: 10%;
+    width: 80%;
+    height: 80%;
+    padding: 1rem;
+}

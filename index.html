@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>portmanteaubergine</title>
     <script src="main.js"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <h1><i>portmante<span style="color: red;">au</span>bergine</i></h1>
@@ -15,6 +16,8 @@
     <h3>score/words ratio: <span id="wordsScoreRatio"></span></h3>
     <input type="text" id="textBox">
     <button>submit</button>
+    <br>
+    <button onclick="giveUp()">give up</button>
     <h3><span style="color: red;" id="errorBox"></span></h3>
     <h3>rules:</h3>
     <ul>
@@ -24,5 +27,10 @@
         <li>you cannot connect the words by one letter only</li>
         <li>the previous word cannot contain the new word</li>
     </ul>
+
+    <div id="closingBox" style="display: none;">
+        <h1>game over...</h1><button onclick="closeClosingBox()">close</button>
+        <h4>possible words include: <span id="possibleWords"></span></h4>
+    </div>
 </body>
 </html>

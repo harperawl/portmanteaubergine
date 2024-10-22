@@ -51,6 +51,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     scoreBox.innerHTML = score;
                     textBox.value = '';
                     errorBox.innerHTML = '';
+                    if (findWordsPossible(wordArray, joiners, dissectWord(recentWord), recentWord).length == 0) {
+                        console.log("you lose");
+                    }
                     break;
                 } else if (joiners.includes(textBoxValue.substring(0, i))) {
                     errorBox.innerHTML = "error: " + textBoxValue + "'s joiner has been used before.";
@@ -64,7 +67,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-
 function resetGame() {
     score = 0;
     words = 0;
@@ -77,5 +79,40 @@ function resetGame() {
     textBox.value = '';
     errorBox.innerHTML = '';
     currentWord = wordArray[Math.floor(Math.random() * wordArray.length)];
+    recentWord = currentWord;
     document.getElementById('currentWord').innerHTML = currentWord;
+}
+
+function findWordsPossible(words, usedJoiners, unusedJoiners, recentWord) {
+    return words.filter(word => {
+        const startsWithUnusedJoiner = unusedJoiners.some(prefix => word.startsWith(prefix));
+        const startsWithUsedJoiner = usedJoiners.some(prefix => word.startsWith(prefix));
+        const isContainedByRecentWord = recentWord.includes(word);
+        
+        return !startsWithUsedJoiner && startsWithUnusedJoiner && !isContainedByRecentWord;
+    });
+}
+
+function dissectWord(word) {
+    const prefixes = [];
+    for (let i = 2; i < word.length; i++) {
+        prefixes.push(word.substring(word.length - i));
+    }
+    return prefixes;
+}
+
+let possibleWords = [];
+
+function giveUp() {
+    document.getElementById('closingBox').style.display = 'block';
+    possibleWords = findWordsPossible(wordArray, joiners, dissectWord(recentWord), recentWord);
+    document.getElementById('possibleWords').innerHTML = possibleWords.slice(0, 15).join(', ') + '<a onclick="loadAll()"> and ' + (possibleWords.length - 15) + ' more.</a>';
+}
+
+function loadAll() {
+    document.getElementById('possibleWords').innerHTML = possibleWords.join(', ');
+}
+
+function closeClosingBox() {
+    document.getElementById('closingBox').style.display = 'none';
 }
