@@ -1,7 +1,7 @@
 async function fetchWordList() {
     try {
         let response = await fetch('sowpods.txt');
-        let data = (await response.text()).split('\r\n');
+        let data = (await response.text()).split('\n');
         return data;
     } catch (error) {
         console.error('Error fetching the random word:', error);
