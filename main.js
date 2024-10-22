@@ -1,6 +1,6 @@
 async function fetchWordList() {
     try {
-        let response = await fetch('english.txt');
+        let response = await fetch('3of6game.txt');
         let data = (await response.text()).split('\n');
         return data;
     } catch (error) {
