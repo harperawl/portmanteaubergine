@@ -17,7 +17,8 @@ fetchWordList().then(wordList => {
 
 let score = 0;
 let words = 0;
-let joiners = [];
+let joinersList = [];
+let wordsList = [];
 let currentWordFormatting = '';
 let textBox;
 let scoreBox;
@@ -38,10 +39,11 @@ document.addEventListener('DOMContentLoaded', function() {
             event.preventDefault();
             const textBoxValue = textBox.value;
             for (let i = 2; i < textBoxValue.length; i++) {
-                if (currentWord.substring(currentWord.length - i) == textBoxValue.substring(0, i) && !joiners.includes(textBoxValue.substring(0, i)) && wordArray.includes(textBoxValue) && !textBoxValue.includes(recentWord)) {
+                if (currentWord.substring(currentWord.length - i) == textBoxValue.substring(0, i) && !joinersList.includes(textBoxValue.substring(0, i)) && wordArray.includes(textBoxValue) && !textBoxValue.includes(recentWord) && !wordsList.includes(textBoxValue)) {
                     currentWordFormatting = currentWord.substring(0, currentWord.length - i) + '<span style="color: red;">' + textBoxValue.substring(0, i) + '</span>' + textBoxValue.substring(i);
                     currentWord += textBoxValue.substring(i);
-                    joiners.push(textBoxValue.substring(0, i));
+                    joinersList.push(textBoxValue.substring(0, i));
+                    wordsList.push(textBoxValue);
                     recentWord = textBoxValue;
                     score += i;
                     words++;
@@ -51,17 +53,18 @@ document.addEventListener('DOMContentLoaded', function() {
                     scoreBox.innerHTML = score;
                     textBox.value = '';
                     errorBox.innerHTML = '';
-                    if (findWordsPossible(wordArray, joiners, dissectWord(recentWord), recentWord).length == 0) {
+                    if (findWordsPossible(wordArray, joinersList, dissectWord(recentWord), recentWord).length == 0) {
                         giveUp();
                     }
                     break;
-                } else if (joiners.includes(textBoxValue.substring(0, i))) {
+                } else if (joinersList.includes(textBoxValue.substring(0, i))) {
                     errorBox.innerHTML = "error: " + textBoxValue + "'s joiner has been used before.";
                 } else if (!wordArray.includes(textBoxValue)) {
                     errorBox.innerHTML = "error: " + textBoxValue + " is not a word.";
                 } else if (textBoxValue.includes(recentWord)) {
                     errorBox.innerHTML = "error: " + textBoxValue + " contains the recent word.";
-                }
+                } else if (wordsList.includes(textBoxValue)) {
+                    errorBox.innerHTML = "error: " + textBoxValue + " has been used before.";}
             }
         }
     });
@@ -70,7 +73,7 @@ document.addEventListener('DOMContentLoaded', function() {
 function resetGame() {
     score = 0;
     words = 0;
-    joiners = [];
+    joinersList = [];
     currentWordFormatting = '';
     currentWordBox.innerHTML = '';
     numWordsBox.innerHTML = '';
@@ -105,7 +108,7 @@ let possibleWords = [];
 
 function giveUp() {
     document.getElementById('closingBox').style.display = 'block';
-    possibleWords = findWordsPossible(wordArray, joiners, dissectWord(recentWord), recentWord);
+    possibleWords = findWordsPossible(wordArray, joinersList, dissectWord(recentWord), recentWord);
     document.getElementById('possibleWords').innerHTML = possibleWords.slice(0, 15).join(', ');
     if (possibleWords.length > 15) {
         document.getElementById('possibleWords').innerHTML += '<a onclick="loadAll()"> and ' + (possibleWords.length - 15) + ' more.</a>';
