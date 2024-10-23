@@ -74,6 +74,7 @@ function resetGame() {
     score = 0;
     words = 0;
     joinersList = [];
+    wordsList = [];
     currentWordFormatting = '';
     currentWordBox.innerHTML = '';
     numWordsBox.innerHTML = '';
