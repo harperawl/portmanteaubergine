@@ -130,8 +130,7 @@ function loadAll() {
 }
 
 function copyStats() {
-    navigator.clipboard.writeText(`portmanteaubergine\nhttps://harperawl.github.io/portmanteaubergine/\n${currentWord}\nscore: ${score}\nnumber of words: ${words}\nwords/score ratio: ${(score / words).toFixed(2)}
-    `)
+    navigator.clipboard.writeText('portmanteaubergine\nhttps://harperawl.github.io/portmanteaubergine/\n${currentWord}\nscore: ${score}\nnumber of words: ${words}\nwords/score ratio: ${(score / words).toFixed(2)}');
 }
 
 function closeClosingBox() {
