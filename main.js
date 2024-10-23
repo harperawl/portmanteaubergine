@@ -33,6 +33,9 @@ document.addEventListener('DOMContentLoaded', function() {
     numWordsBox = document.getElementById('numWords');
     wordsScoreRatioBox = document.getElementById('wordsScoreRatio');
     errorBox = document.getElementById('errorBox');
+    if (findWordsPossible(wordArray, joiners, dissectWord(recentWord), recentWord).length == 0) {
+        resetGame();
+    }
     textBox.addEventListener('keydown', function(event) {
         if (event.key === 'Enter') {
             event.preventDefault();
@@ -51,6 +54,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     scoreBox.innerHTML = score;
                     textBox.value = '';
                     errorBox.innerHTML = '';
+                    if (findWordsPossible(wordArray, joiners, dissectWord(recentWord), recentWord).length == 0) {
+                        giveUp();
+                    }
                     break;
                 } else if (joiners.includes(textBoxValue.substring(0, i))) {
                     errorBox.innerHTML = "error: " + textBoxValue + "'s joiner has been used before.";
