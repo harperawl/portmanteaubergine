@@ -108,6 +108,11 @@ let possibleWords = [];
 
 function giveUp() {
     document.getElementById('closingBox').style.display = 'block';
+
+    document.getElementById('finalScore').innerHTML = score;
+    document.getElementById('finalNumWords').innerHTML = words;
+    document.getElementById('finalWordsScoreRatio').innerHTML = (score / words).toFixed(2);
+
     possibleWords = findWordsPossible(wordArray, joinersList, dissectWord(recentWord), recentWord);
     document.getElementById('possibleWords').innerHTML = possibleWords.slice(0, 15).join(', ');
     if (possibleWords.length > 15) {
@@ -121,6 +126,17 @@ function giveUp() {
 
 function loadAll() {
     document.getElementById('possibleWords').innerHTML = possibleWords.join(', ');
+}
+
+function copyStats() {
+    navigator.clipboard.writeText(`
+    portmanteaubergine
+    https://harperawl.github.io/portmanteaubergine/
+    ${currentWord}
+    score: ${score}
+    number of words: ${words}
+    words/score ratio: ${(score / words).toFixed(2)}
+    `)
 }
 
 function closeClosingBox() {
