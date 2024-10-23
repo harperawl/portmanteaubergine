@@ -130,13 +130,7 @@ function loadAll() {
 }
 
 function copyStats() {
-    navigator.clipboard.writeText(`
-    portmanteaubergine
-    https://harperawl.github.io/portmanteaubergine/
-    ${currentWord}
-    score: ${score}
-    number of words: ${words}
-    words/score ratio: ${(score / words).toFixed(2)}
+    navigator.clipboard.writeText(`portmanteaubergine\nhttps://harperawl.github.io/portmanteaubergine/\n${currentWord}\nscore: ${score}\nnumber of words: ${words}\nwords/score ratio: ${(score / words).toFixed(2)}
     `)
 }
 
