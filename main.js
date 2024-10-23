@@ -13,8 +13,14 @@ fetchWordList().then(wordList => {
     currentWord = wordList[Math.floor(Math.random() * wordList.length)];
     recentWord = currentWord;
     document.getElementById('currentWord').innerHTML = currentWord;
+    while (findWordsPossible(wordArray, [], dissectWord(currentWord), currentWord).length < possibilityLimit) {
+        currentWord = wordList[Math.floor(Math.random() * wordList.length)];
+        recentWord = currentWord;
+        document.getElementById('currentWord').innerHTML = currentWord;
+    }
 });
 
+let possibilityLimit = 300;
 let score = 0;
 let words = 0;
 let joinersList = [];
@@ -85,6 +91,11 @@ function resetGame() {
     currentWord = wordArray[Math.floor(Math.random() * wordArray.length)];
     recentWord = currentWord;
     document.getElementById('currentWord').innerHTML = currentWord;
+    while (findWordsPossible(wordArray, [], dissectWord(currentWord), currentWord).length < possibilityLimit) {
+        currentWord = wordArray[Math.floor(Math.random() * wordArray.length)];
+        recentWord = currentWord;
+        document.getElementById('currentWord').innerHTML = currentWord;
+    }
 }
 
 function findWordsPossible(words, usedJoiners, unusedJoiners, recentWord) {
