@@ -33,9 +33,6 @@ document.addEventListener('DOMContentLoaded', function() {
     numWordsBox = document.getElementById('numWords');
     wordsScoreRatioBox = document.getElementById('wordsScoreRatio');
     errorBox = document.getElementById('errorBox');
-    if (findWordsPossible(wordArray, joiners, dissectWord(recentWord), recentWord).length == 0) {
-        resetGame();
-    }
     textBox.addEventListener('keydown', function(event) {
         if (event.key === 'Enter') {
             event.preventDefault();
