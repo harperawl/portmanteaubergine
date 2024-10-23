@@ -78,9 +78,6 @@ function resetGame() {
     currentWord = wordArray[Math.floor(Math.random() * wordArray.length)];
     recentWord = currentWord;
     document.getElementById('currentWord').innerHTML = currentWord;
-    if (findWordsPossible(wordArray, joiners, dissectWord(recentWord), recentWord).length == 0) {
-        resetGame();
-    }
 }
 
 function findWordsPossible(words, usedJoiners, unusedJoiners, recentWord) {
@@ -106,14 +103,7 @@ let possibleWords = [];
 function giveUp() {
     document.getElementById('closingBox').style.display = 'block';
     possibleWords = findWordsPossible(wordArray, joiners, dissectWord(recentWord), recentWord);
-    document.getElementById('possibleWords').innerHTML = possibleWords.slice(0, 15).join(', ');
-    if (possibleWords.length > 15) {
-        document.getElementById('possibleWords').innerHTML += '<a onclick="loadAll()"> and ' + (possibleWords.length - 15) + ' more.</a>';
-    } else if (possibleWords.length > 0) {
-        document.getElementById('possibleWords').innerHTML += '.';
-    } else {
-        document.getElementById('possibleWords').innerHTML = 'none.';
-    }
+    document.getElementById('possibleWords').innerHTML = possibleWords.slice(0, 15).join(', ') + '<a onclick="loadAll()"> and ' + (possibleWords.length - 15) + ' more.</a>';
 }
 
 function loadAll() {
