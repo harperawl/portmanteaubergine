@@ -43,62 +43,38 @@ document.addEventListener('DOMContentLoaded', function() {
     textBox.addEventListener('keydown', function(event) {
         if (event.key === 'Enter') {
             event.preventDefault();
-            submitWord();
+            const textBoxValue = textBox.value;
+            for (let i = 2; i < textBoxValue.length; i++) {
+                if (currentWord.substring(currentWord.length - i) == textBoxValue.substring(0, i) && !joinersList.includes(textBoxValue.substring(0, i)) && wordArray.includes(textBoxValue) && !textBoxValue.includes(recentWord) && !wordsList.includes(textBoxValue)) {
+                    currentWordFormatting = currentWord.substring(0, currentWord.length - i) + '<span style="color: red;">' + textBoxValue.substring(0, i) + '</span>' + textBoxValue.substring(i);
+                    currentWord += textBoxValue.substring(i);
+                    joinersList.push(textBoxValue.substring(0, i));
+                    wordsList.push(textBoxValue);
+                    recentWord = textBoxValue;
+                    score += i;
+                    words++;
+                    currentWordBox.innerHTML = currentWordFormatting;
+                    numWordsBox.innerHTML = words;
+                    wordsScoreRatioBox.innerHTML = score + "/" + words + " ≈ " + (score / words).toFixed(2);
+                    scoreBox.innerHTML = score;
+                    textBox.value = '';
+                    errorBox.innerHTML = '';
+                    if (findWordsPossible(wordArray, joinersList, dissectWord(recentWord), recentWord).length == 0) {
+                        giveUp();
+                    }
+                    break;
+                } else if (joinersList.includes(textBoxValue.substring(0, i))) {
+                    errorBox.innerHTML = "error: " + textBoxValue + "'s joiner has been used before.";
+                } else if (!wordArray.includes(textBoxValue)) {
+                    errorBox.innerHTML = "error: " + textBoxValue + " is not a word.";
+                } else if (textBoxValue.includes(recentWord)) {
+                    errorBox.innerHTML = "error: " + textBoxValue + " contains the recent word.";
+                } else if (wordsList.includes(textBoxValue)) {
+                    errorBox.innerHTML = "error: " + textBoxValue + " has been used before.";}
+            }
         }
     });
 });
-
-function submitWord() {
-    const textBoxValue = textBox.value;
-    for (let i = 2; i < textBoxValue.length; i++) {
-        const joiner = textBoxValue.substring(0, i);
-        if (currentWord.substring(currentWord.length - i) === joiner &&
-            !joinersList.includes(joiner) &&
-            wordArray.includes(textBoxValue) &&
-            !textBoxValue.includes(recentWord) &&
-            !wordsList.includes(textBoxValue)) {
-
-            currentWord += textBoxValue.substring(i);
-            recentWord = textBoxValue;
-            joinersList.push(joiner);
-            wordsList.push(textBoxValue);
-            score += i;
-            words++;
-
-            let formatted = currentWord;
-            joinersList.forEach(j => {
-                const index = formatted.indexOf(j);
-                if (index !== -1) {
-                    formatted = formatted.substring(0, index) +
-                        '<span style="color: red;">' + j + '</span>' +
-                        formatted.substring(index + j.length);
-                }
-            });
-
-            currentWordFormatting = formatted;
-            currentWordBox.innerHTML = currentWordFormatting;
-            numWordsBox.innerHTML = words;
-            wordsScoreRatioBox.innerHTML = score + "/" + words + " ≈ " + (score / words).toFixed(2);
-            scoreBox.innerHTML = score;
-            textBox.value = '';
-            errorBox.innerHTML = '';
-
-            if (findWordsPossible(wordArray, joinersList, dissectWord(recentWord), recentWord).length == 0) {
-                giveUp();
-            }
-
-            break;
-        } else if (joinersList.includes(joiner)) {
-            errorBox.innerHTML = "error: " + textBoxValue + "'s joiner has been used before.";
-        } else if (!wordArray.includes(textBoxValue)) {
-            errorBox.innerHTML = "error: " + textBoxValue + " is not a word.";
-        } else if (textBoxValue.includes(recentWord)) {
-            errorBox.innerHTML = "error: " + textBoxValue + " contains the recent word.";
-        } else if (wordsList.includes(textBoxValue)) {
-            errorBox.innerHTML = "error: " + textBoxValue + " has been used before.";
-        }
-    }
-}
 
 function resetGame() {
     score = 0;
