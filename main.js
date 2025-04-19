@@ -24,7 +24,6 @@ let possibilityLimit = 300;
 let score = 0;
 let words = 0;
 let joinersList = [];
-let joinerSpans = [];
 let wordsList = [];
 let currentWordFormatting = '';
 let textBox;
@@ -53,11 +52,7 @@ function submitWord() {
     const textBoxValue = textBox.value;
     for (let i = 2; i < textBoxValue.length; i++) {
         const joiner = textBoxValue.substring(0, i);
-        const currentEnd = currentWord.length;
-        const recentEnd = currentWord.length;
-        const recentStart = currentEnd - i;
-
-        if (currentWord.substring(recentStart) === joiner &&
+        if (currentWord.substring(currentWord.length - i) === joiner &&
             !joinersList.includes(joiner) &&
             wordArray.includes(textBoxValue) &&
             !textBoxValue.includes(recentWord) &&
@@ -70,14 +65,18 @@ function submitWord() {
             score += i;
             words++;
 
-            joinerSpans.push({
-                start: recentStart,
-                end: recentEnd
+            let formatted = currentWord;
+            joinersList.forEach(j => {
+                const index = formatted.indexOf(j);
+                if (index !== -1) {
+                    formatted = formatted.substring(0, index) +
+                        '<span style="color: red;">' + j + '</span>' +
+                        formatted.substring(index + j.length);
+                }
             });
 
-            currentWordFormatting = buildFormattedWord(currentWord, joinerSpans);
+            currentWordFormatting = formatted;
             currentWordBox.innerHTML = currentWordFormatting;
-
             numWordsBox.innerHTML = words;
             wordsScoreRatioBox.innerHTML = score + "/" + words + " ≈ " + (score / words).toFixed(2);
             scoreBox.innerHTML = score;
@@ -105,7 +104,6 @@ function resetGame() {
     score = 0;
     words = 0;
     joinersList = [];
-    joinerSpans = [];
     wordsList = [];
     currentWordFormatting = '';
     currentWordBox.innerHTML = '';
@@ -140,29 +138,6 @@ function dissectWord(word) {
         prefixes.push(word.substring(word.length - i));
     }
     return prefixes;
-}
-
-function buildFormattedWord(word, spans) {
-    // Sort spans by start position
-    spans.sort((a, b) => a.start - b.start);
-
-    let result = '';
-    let index = 0;
-
-    spans.forEach(span => {
-        if (index < span.start) {
-            result += word.substring(index, span.start);
-        }
-        result += `<span style="color: red;">${word.substring(span.start, span.end)}</span>`;
-        index = span.end;
-    });
-
-    // Add any trailing text
-    if (index < word.length) {
-        result += word.substring(index);
-    }
-
-    return result;
 }
 
 let possibleWords = [];
